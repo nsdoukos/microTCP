@@ -77,7 +77,7 @@ main (int argc, char **argv)
         break;
       case 'i':
         /*
-         * Set the mean of the poisson distribution for the interarrivals
+         * Set the mean of the lognormal distribution for the interarrivals
          * in milliseconds (ms)
          */
         mean_inter = atoi (optarg);
@@ -87,12 +87,12 @@ main (int argc, char **argv)
             "Usage: bandwidth_test -p port -i packet inter-arrival ms"
             "Options:\n"
             "   -p <int>            the port to wait for a peer"
-            "   -i <int>            the mean inter-arrival time in milliseconds of the poisson distribution"
+            "   -i <int>            the mean inter-arrival time in milliseconds of the log-normal distribution"
             "   -h                  prints this help\n");
         exit (EXIT_FAILURE);
       }
   }
-  std::poisson_distribution<int> dpoisson(mean_inter);
+  std::lognormal_distribution<double> dlognormal(mean_inter, 1);
   LOG_INFO("Creating traffic generator on port %d", port);
   LOG_INFO("Poisson distribution inter-arrivals with mean %u ms", mean_inter);
 
@@ -139,7 +139,7 @@ main (int argc, char **argv)
   LOG_INFO("Start generating traffic...");
 
   while(stop_traffic == false) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(dpoisson(gen)));
+    std::this_thread::sleep_for(std::chrono::milliseconds(int(dlognormal(gen))));
     microtcp_send(&sock, buffer, BUF_LEN, 0);
   }
 
