@@ -76,6 +76,8 @@ typedef struct
 
   size_t seq_number;            /**< Keep the state of the sequence number */
   size_t ack_number;            /**< Keep the state of the ack number */
+  size_t left_sack;		/**< Keep the state of the left sack number */
+  size_t right_sack;		/**< Keep the state of the right sack number */
   uint64_t packets_send;
   uint64_t packets_received;
   uint64_t packets_lost;
@@ -100,6 +102,8 @@ typedef struct
   uint32_t future_use1;         /**< 32-bits for future use */
   uint32_t future_use2;         /**< 32-bits for future use */
   uint32_t checksum;            /**< CRC-32 checksum, see crc32() in utils folder */
+  uint32_t left_sack;		/**< Left edge SACK number */
+  uint32_t right_sack;		/**< Right edge SACK number */
 } microtcp_header_t;
 
 
