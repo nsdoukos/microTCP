@@ -87,12 +87,12 @@ main (int argc, char **argv)
             "Usage: bandwidth_test -p port -i packet inter-arrival ms"
             "Options:\n"
             "   -p <int>            the port to wait for a peer"
-            "   -i <int>            the mean inter-arrival time in milliseconds of the log-normal distribution"
+            "   -i <int>            the mean inter-arrival time in milliseconds of the undeline normal distribution"
             "   -h                  prints this help\n");
         exit (EXIT_FAILURE);
       }
   }
-  std::lognormal_distribution<double> dlognormal(mean_inter, 1);
+  std::lognormal_distribution<double> dlognormal(log(mean_inter), 0.5);
   LOG_INFO("Creating traffic generator on port %d", port);
   LOG_INFO("Poisson distribution inter-arrivals with mean %u ms", mean_inter);
 
